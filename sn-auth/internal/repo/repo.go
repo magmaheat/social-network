@@ -5,8 +5,7 @@ import (
 	"sn-auth/pkg/postgres"
 )
 
-type User interface {
-}
+type User interface{}
 
 type Repositories struct {
 	User

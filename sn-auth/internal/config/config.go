@@ -9,11 +9,12 @@ import (
 
 type (
 	Config struct {
-		App  `yaml:"app"`
-		HTTP `yaml:"http"`
-		Log  `yaml:"log"`
-		PG   `yaml:"postgres"`
-		JWT  `yaml:"jwt"`
+		App    `yaml:"app"`
+		HTTP   `yaml:"http"`
+		Log    `yaml:"log"`
+		PG     `yaml:"postgres"`
+		JWT    `yaml:"jwt"`
+		Hasher `yaml:"hasher"`
 	}
 
 	App struct {
@@ -38,6 +39,10 @@ type (
 	JWT struct {
 		SignKey  string        `env-required:"true"                  env:"JWT_SIGN_KEY"`
 		TokenTTL time.Duration `env-required:"true" yaml:"token_ttl" env:"JWT_TOKEN_TTL"`
+	}
+
+	Hasher struct {
+		Salt string `env-required:"true" env:"HASHER_SALT"`
 	}
 )
 
