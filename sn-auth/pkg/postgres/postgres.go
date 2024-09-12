@@ -31,7 +31,7 @@ type PgxPool interface {
 }
 
 type Postgres struct {
-	maxPoolSize  int32
+	maxPoolSize  int
 	connAttempts int
 	connTimeout  time.Duration
 
@@ -40,7 +40,7 @@ type Postgres struct {
 }
 
 func New(url string, opts ...Option) (*Postgres, error) {
-	const fn = "pkg/postgres/postgres/New"
+	const fn = "pkg.postgres.New"
 
 	pg := &Postgres{
 		maxPoolSize:  defaultMaxPoolSize,
@@ -59,7 +59,7 @@ func New(url string, opts ...Option) (*Postgres, error) {
 		return nil, fmt.Errorf("%s: %w", fn, err)
 	}
 
-	poolConfig.MaxConns = pg.maxPoolSize
+	poolConfig.MaxConns = int32(pg.maxPoolSize)
 
 	for pg.connAttempts > 0 {
 		pg.Pool, err = pgxpool.NewWithConfig(context.Background(), poolConfig)
@@ -77,4 +77,10 @@ func New(url string, opts ...Option) (*Postgres, error) {
 	}
 
 	return pg, nil
+}
+
+func (p *Postgres) Close() {
+	if p.Pool != nil {
+		p.Pool.Close()
+	}
 }
