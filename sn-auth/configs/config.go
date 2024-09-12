@@ -1,4 +1,4 @@
-package config
+package configs
 
 import (
 	"github.com/ilyakaznacheev/cleanenv"
@@ -46,8 +46,8 @@ type (
 	}
 )
 
-func MustLoad() *Config {
-	configPath := os.Getenv("CONFIG_PATH")
+func MustLoad(cgfPath string) *Config {
+	configPath := os.Getenv(cgfPath)
 	if configPath == "" {
 		log.Fatal("CONFIG_PATH is not set")
 	}

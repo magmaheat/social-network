@@ -1,5 +1,5 @@
 app:
-  name: 'sn-auth-backend'
+  name: 'sn-app-backend'
   version: '1.0.0'
 
 http:

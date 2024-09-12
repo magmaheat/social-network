@@ -21,7 +21,7 @@ func NewRouter(handler *echo.Echo, services *service.Services) {
 
 	authMiddleware := &AuthMiddleware{services.Auth}
 
-	auth := handler.Group("/auth")
+	auth := handler.Group("/app")
 	{
 		newAuthRoutes(auth, services.Auth)
 	}

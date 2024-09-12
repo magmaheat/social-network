@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
-	"sn-auth/internal/config"
+	"sn-auth/configs"
 	v1 "sn-auth/internal/controller/http/v1"
 	"sn-auth/internal/repo"
 	"sn-auth/internal/service"
@@ -18,7 +18,7 @@ import (
 
 // @title           Authorization Service
 // @version         1.0
-// @description     This is a service for auth users in system
+// @description     This is a service for app users in system
 
 // @contact.name   George Epishev
 // @contact.email  epishcom@gmail.com
@@ -33,7 +33,7 @@ import (
 
 func Run(configPath string) {
 	const fn = "app.Run"
-	cfg := config.MustLoad()
+	cfg := configs.MustLoad(configPath)
 
 	SetLogrus(cfg.Log.Level)
 

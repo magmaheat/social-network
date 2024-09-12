@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	ErrInvalidAuthHeader = fmt.Errorf("invalid auth header")
+	ErrInvalidAuthHeader = fmt.Errorf("invalid app header")
 	ErrCannotParseToken  = fmt.Errorf("cannot parse token")
 )
 
