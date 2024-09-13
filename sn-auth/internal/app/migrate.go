@@ -6,6 +6,9 @@ import (
 	log "github.com/sirupsen/logrus"
 	"os"
 	"time"
+
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
 const (
@@ -28,8 +31,8 @@ func init() {
 	)
 
 	for attempts > 0 {
-		m, err = migrate.New("file://migration", databaseURL)
-		if err != nil {
+		m, err = migrate.New("file://migrations", databaseURL)
+		if err == nil {
 			break
 		}
 
@@ -44,7 +47,7 @@ func init() {
 
 	err = m.Up()
 	defer func() { _, _ = m.Close() }()
-	if err != nil {
+	if err != nil && !errors.Is(err, migrate.ErrNoChange) {
 		log.Fatalf("Migrate: up error: %s", err)
 	}
 

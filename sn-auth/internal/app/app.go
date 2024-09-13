@@ -33,7 +33,10 @@ import (
 
 func Run(configPath string) {
 	const fn = "app.Run"
-	cfg := configs.MustLoad(configPath)
+	cfg, err := configs.MustLoad(configPath)
+	if err != nil {
+		log.Fatalf("%s: %v", fn, err)
+	}
 
 	SetLogrus(cfg.Log.Level)
 

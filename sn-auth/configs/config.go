@@ -1,9 +1,9 @@
 package configs
 
 import (
+	"fmt"
 	"github.com/ilyakaznacheev/cleanenv"
-	"log"
-	"os"
+	"path"
 	"time"
 )
 
@@ -46,21 +46,18 @@ type (
 	}
 )
 
-func MustLoad(cgfPath string) *Config {
-	configPath := os.Getenv(cgfPath)
-	if configPath == "" {
-		log.Fatal("CONFIG_PATH is not set")
+func MustLoad(configPath string) (*Config, error) {
+	cfg := &Config{}
+
+	err := cleanenv.ReadConfig(path.Join("./", configPath), cfg)
+	if err != nil {
+		return nil, fmt.Errorf("error reading config file: %w", err)
 	}
 
-	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		log.Fatalf("config file does not exist: %s", configPath)
+	err = cleanenv.UpdateEnv(cfg)
+	if err != nil {
+		return nil, fmt.Errorf("error updating env: %w", err)
 	}
 
-	var cfg Config
-
-	if err := cleanenv.ReadConfig(configPath, &cfg); err != nil {
-		log.Fatalf("cannot read config: %s", err)
-	}
-
-	return &cfg
+	return cfg, nil
 }
