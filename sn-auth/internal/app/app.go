@@ -3,6 +3,7 @@ package app
 import (
 	log "github.com/sirupsen/logrus"
 	"sn-auth/configs"
+	"sn-auth/internal/repo"
 	"sn-auth/pkg/postgres"
 )
 
@@ -22,9 +23,9 @@ func Run(configPath string) {
 	defer pg.Close()
 
 	log.Info("Initializing repositories...")
+	repositories := repo.NewRepositories(pg)
 
-	// TODO init repo
-
+	log.Info("Initializing services...")
 	// TODO init service
 
 	// TODO start server
