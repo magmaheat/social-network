@@ -25,6 +25,8 @@ func Run(configPath string) {
 	log.Info("Initializing repositories...")
 	repositories := repo.NewRepositories(pg)
 
+	_ = repositories
+
 	log.Info("Initializing services...")
 	// TODO init service
 
