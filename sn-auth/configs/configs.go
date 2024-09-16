@@ -41,7 +41,7 @@ type JWT struct {
 }
 
 type Hasher struct {
-	Salt string `env-required:"true" yaml:"salt"`
+	Salt string `env-required:"true" yaml:"salt" env:"HASHER_SALT"`
 }
 
 func NewConfig(configPath string) (*Config, error) {

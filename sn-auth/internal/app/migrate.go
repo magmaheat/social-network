@@ -21,7 +21,7 @@ const (
 
 func init() {
 	databaseURL, ok := os.LookupEnv("PG_URL")
-	if !of || len(databaseURL) == 0 {
+	if !ok || len(databaseURL) == 0 {
 		log.Fatalf("migrate: enviroment variable not declared: PG_URL")
 	}
 

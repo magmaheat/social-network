@@ -28,6 +28,7 @@ func Run(configPath string) {
 	_ = repositories
 
 	log.Info("Initializing services...")
+
 	// TODO init service
 
 	// TODO start server
