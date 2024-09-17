@@ -4,6 +4,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"sn-auth/configs"
 	"sn-auth/internal/repo"
+	"sn-auth/internal/service"
+	"sn-auth/pkg/hasher"
 	"sn-auth/pkg/postgres"
 )
 
@@ -25,11 +27,15 @@ func Run(configPath string) {
 	log.Info("Initializing repositories...")
 	repositories := repo.NewRepositories(pg)
 
-	_ = repositories
-
 	log.Info("Initializing services...")
+	deps := service.ServicesDependencies{
+		Repos:    repositories,
+		Hasher:   hasher.NewBCRYPTHasher(),
+		SignKey:  cfg.SignKey,
+		TokenTTL: cfg.TokenTTL,
+	}
+	services := service.NewServices(deps)
 
-	// TODO init service
-
+	_ = services
 	// TODO start server
 }

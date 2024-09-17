@@ -8,12 +8,11 @@ import (
 )
 
 type Config struct {
-	App    `yaml:"app"`
-	HTTP   `yaml:"http"`
-	Log    `yaml:"log"`
-	PG     `yaml:"pg"`
-	JWT    `yaml:"jwt"`
-	Hasher `yaml:"hasher"`
+	App  `yaml:"app"`
+	HTTP `yaml:"http"`
+	Log  `yaml:"log"`
+	PG   `yaml:"pg"`
+	JWT  `yaml:"jwt"`
 }
 
 type App struct {
@@ -38,10 +37,6 @@ type PG struct {
 type JWT struct {
 	SignKey  string        `env-required:"true" env:"JWT_SIGN_KEY"`
 	TokenTTL time.Duration `env-required:"true" yaml:"token_ttl"  env:"JWT_TOKEN_TTL"`
-}
-
-type Hasher struct {
-	Salt string `env-required:"true" yaml:"salt" env:"HASHER_SALT"`
 }
 
 func NewConfig(configPath string) (*Config, error) {
