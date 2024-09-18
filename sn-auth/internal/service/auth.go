@@ -2,8 +2,13 @@ package service
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"github.com/golang-jwt/jwt"
+	log "github.com/sirupsen/logrus"
+	"sn-auth/internal/entity"
 	"sn-auth/internal/repo"
+	"sn-auth/internal/repo/repoerrs"
 	"sn-auth/pkg/hasher"
 	"time"
 )
@@ -30,13 +35,68 @@ func NewAuthService(userRepo repo.User, passwordHasher hasher.PasswordHasher, si
 }
 
 func (a *AuthService) CreateUser(ctx context.Context, input AuthCreateUserInput) (int, error) {
-	return 0, nil
+	user := entity.User{
+		Username: input.Username,
+		Password: a.passwordHasher.Hash(input.Password),
+	}
+
+	userId, err := a.userRepo.CreateUser(ctx, user)
+	if err != nil {
+		if errors.Is(err, repoerrs.ErrAlreadyExists) {
+			return 0, ErrUserAlreadyExists
+		}
+		log.Errorf("AuthService.CreateUser - a.userRepo.CreateUser: %v", err)
+		return 0, ErrCannotCreateUser
+	}
+
+	return userId, nil
 }
 
 func (a *AuthService) GenerateToken(ctx context.Context, input AuthGenerateTokenInput) (string, error) {
-	return "", nil
+	user, err := a.userRepo.GetUserByUsernameAndPassword(ctx, input.Username, a.passwordHasher.Hash(input.Password))
+	if err != nil {
+		if errors.Is(err, repoerrs.ErrNotFound) {
+			return "", ErrUserNotFound
+		}
+
+		log.Errorf("AuthService.GenerateToken: cannot get user: %v", err)
+		return "", ErrCannotGetUser
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &TokenClaims{
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(a.tokenTTL).Unix(),
+			IssuedAt:  time.Now().Unix(),
+		},
+		UserId: user.Id,
+	})
+
+	tokenString, err := token.SignedString([]byte(a.signKey))
+	if err != nil {
+		log.Errorf("AuthService.GenerateToken: cannot sign token: %v", err)
+		return "", ErrCannotSignToken
+	}
+
+	return tokenString, nil
 }
 
-func (a *AuthService) ParseToken(token string) (int, error) {
-	return 0, nil
+func (a *AuthService) ParseToken(accessToken string) (int, error) {
+	token, err := jwt.ParseWithClaims(accessToken, &TokenClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+
+		return []byte(a.signKey), nil
+	})
+
+	if err != nil {
+		return 0, ErrCannotParseToken
+	}
+
+	claims, ok := token.Claims.(*TokenClaims)
+	if !ok {
+		return 0, ErrCannotParseToken
+	}
+
+	return claims.UserId, nil
 }

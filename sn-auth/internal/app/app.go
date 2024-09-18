@@ -1,12 +1,14 @@
 package app
 
 import (
+	"github.com/labstack/echo/v4"
 	log "github.com/sirupsen/logrus"
 	"sn-auth/configs"
 	"sn-auth/internal/repo"
 	"sn-auth/internal/service"
 	"sn-auth/pkg/hasher"
 	"sn-auth/pkg/postgres"
+	"sn-auth/pkg/validator"
 )
 
 func Run(configPath string) {
@@ -37,5 +39,10 @@ func Run(configPath string) {
 	services := service.NewServices(deps)
 
 	_ = services
+
+	log.Info("Initializing handlers and routes...")
+	handler := echo.New()
+
+	handler.Validator = validator.NewCustomValidator()
 	// TODO start server
 }
