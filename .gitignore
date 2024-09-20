@@ -54,4 +54,4 @@ dkms.conf
 # Other
 .idea
 .env
-*/logs
+logs/
