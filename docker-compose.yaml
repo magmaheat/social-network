@@ -10,14 +10,13 @@ services:
       - "5432:5432"
     restart: unless-stopped
 
-  sn-app:
-    container_name: sn-app
+  sn-auth:
+    container_name: sn-auth
     build:
       context: ./sn-auth
       dockerfile: Dockerfile
     volumes:
-      - ./logs:/logs
-      - ./secrets:/secrets
+      - ./sn-auth/logs:/logs
     env_file:
       - ./sn-auth/.env
     ports:
