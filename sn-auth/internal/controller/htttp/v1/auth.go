@@ -15,13 +15,13 @@ func NewAuthRouter(g *echo.Group, authService service.Auth) {
 		authService: authService,
 	}
 
-	g.POST("/sing-up", r.signUp)
+	g.POST("/sign-up", r.signUp)
 	g.POST("/sign-in", r.signIn)
 }
 
 type signUpInput struct {
-	Username string `json:"username" validate:"required, min=4, max=32"`
-	Password string `json:"password" validate:"required, password"`
+	Username string `json:"username" validate:"required,min=4,max=32"`
+	Password string `json:"password" validate:"required,password"`
 }
 
 func (a *authRouter) signUp(c echo.Context) error {
@@ -62,12 +62,12 @@ func (a *authRouter) signUp(c echo.Context) error {
 }
 
 type signInInput struct {
-	Username string `json:"username" validate:"required,min=4, max=32"`
-	Password string `json:"password" validate:"required, password"`
+	Username string `json:"username" validate:"required,min=4,max=32"`
+	Password string `json:"password" validate:"required,password"`
 }
 
 func (a *authRouter) signIn(c echo.Context) error {
-	var input signUpInput
+	var input signInInput
 
 	if err := c.Bind(&input); err != nil {
 		NewErrorResponce(c, http.StatusBadRequest, err.Error())

@@ -42,11 +42,11 @@ func (u *UserRepo) CreateUser(ctx context.Context, user entity.User) (int, error
 	return id, nil
 }
 
-func (u *UserRepo) GetUserByUsernameAndPassword(ctx context.Context, username, password string) (entity.User, error) {
+func (u *UserRepo) GetUserByUsernameAndPassword(ctx context.Context, username string) (entity.User, error) {
 	sql, args, _ := u.Builder.
 		Select("id, username, password, created_at").
 		From("users").
-		Where("username = ? AND password = ?", username, password).
+		Where("username = ?", username).
 		ToSql()
 
 	var user entity.User

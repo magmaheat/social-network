@@ -53,7 +53,8 @@ func (a *AuthService) CreateUser(ctx context.Context, input AuthCreateUserInput)
 }
 
 func (a *AuthService) GenerateToken(ctx context.Context, input AuthGenerateTokenInput) (string, error) {
-	user, err := a.userRepo.GetUserByUsernameAndPassword(ctx, input.Username, a.passwordHasher.Hash(input.Password))
+	user, err := a.userRepo.GetUserByUsernameAndPassword(ctx, input.Username)
+
 	if err != nil {
 		if errors.Is(err, repoerrs.ErrNotFound) {
 			return "", ErrUserNotFound
@@ -61,6 +62,10 @@ func (a *AuthService) GenerateToken(ctx context.Context, input AuthGenerateToken
 
 		log.Errorf("AuthService.GenerateToken: cannot get user: %v", err)
 		return "", ErrCannotGetUser
+	}
+
+	if !a.passwordHasher.CheckPassword(user.Password, input.Password) {
+		return "", ErrUserNotFound
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &TokenClaims{

@@ -1,12 +1,16 @@
 package app
 
 import (
+	"fmt"
 	"github.com/labstack/echo/v4"
 	log "github.com/sirupsen/logrus"
+	"os"
 	"sn-auth/configs"
+	v1 "sn-auth/internal/controller/htttp/v1"
 	"sn-auth/internal/repo"
 	"sn-auth/internal/service"
 	"sn-auth/pkg/hasher"
+	"sn-auth/pkg/httpserver"
 	"sn-auth/pkg/postgres"
 	"sn-auth/pkg/validator"
 )
@@ -44,5 +48,25 @@ func Run(configPath string) {
 	handler := echo.New()
 
 	handler.Validator = validator.NewCustomValidator()
-	// TODO start server
+	v1.NewRouter(handler, services)
+
+	log.Info("Starting http server...")
+	log.Debugf("Server port: %d", cfg.HTTP.Port)
+	httpServer := httpserver.New(handler, httpserver.Port(cfg.HTTP.Port))
+
+	log.Info("Configuring graceful shutdown...")
+	interrupt := make(chan os.Signal, 1)
+
+	select {
+	case s := <-interrupt:
+		log.Info("app - Run - signal: " + s.String())
+	case err = <-httpServer.Notify():
+		log.Info(fmt.Errorf("app - Run - httpServer.Notify: %w", err))
+	}
+
+	log.Info("Shutting down...")
+	err = httpServer.Shutdown()
+	if err != nil {
+		log.Error(fmt.Errorf("app - Run - httpServer.Shutdown: %w", err))
+	}
 }
