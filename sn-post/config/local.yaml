@@ -1,0 +1,15 @@
+app:
+  name: "post-service"
+  version: "1.0.0"
+
+http:
+  host: 8099
+
+log:
+  level: "debug"
+
+pg:
+  max_pool_size: 20
+
+jwt:
+  token_ttl: 120

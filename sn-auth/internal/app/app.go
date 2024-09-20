@@ -5,7 +5,7 @@ import (
 	"github.com/labstack/echo/v4"
 	log "github.com/sirupsen/logrus"
 	"os"
-	"sn-auth/configs"
+	"sn-auth/config"
 	v1 "sn-auth/internal/controller/htttp/v1"
 	"sn-auth/internal/repo"
 	"sn-auth/internal/service"
@@ -16,7 +16,7 @@ import (
 )
 
 func Run(configPath string) {
-	cfg, err := configs.NewConfig(configPath)
+	cfg, err := config.NewConfig(configPath)
 	if err != nil {
 		log.Fatalf("Config error: %v", err)
 	}

@@ -2,7 +2,7 @@ package main
 
 import "sn-auth/internal/app"
 
-const configPath = "configs/local.yaml"
+const configPath = "config/local.yaml"
 
 func main() {
 	app.Run(configPath)
