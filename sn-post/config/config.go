@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"github.com/ilyakaznacheev/cleanenv"
+	"path"
 )
 
 type Config struct {
@@ -28,7 +29,7 @@ type Log struct {
 }
 
 type PG struct {
-	MaxPoolSize string `env-required:"true" yaml:"max_pool_size" env:"PG_MAX_POOL_SIZE"`
+	MaxPoolSize int    `env-required:"true" yaml:"max_pool_size" env:"PG_MAX_POOL_SIZE"`
 	URL         string `env-required:"true" yaml:"url" env:"PG_URL"`
 }
 
@@ -37,12 +38,12 @@ type JWT struct {
 	TokenTTL string `env-required:"true" yaml:"token_ttl" env:"JWT_TOKEN_TTL"`
 }
 
-func New(path string) (*Config, error) {
+func New(pathConfig string) (*Config, error) {
 	cfg := &Config{}
 
-	err := cleanenv.ReadConfig(path, cfg)
+	err := cleanenv.ReadConfig(path.Join("./", pathConfig), cfg)
 	if err != nil {
-		return nil, fmt.Errorf("Error read config: %v", err)
+		return nil, fmt.Errorf("error read config: %v", err)
 	}
 
 	err = cleanenv.UpdateEnv(cfg)

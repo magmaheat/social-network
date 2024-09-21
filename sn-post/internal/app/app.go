@@ -8,7 +8,7 @@ import (
 )
 
 func Run(pathConfig string) {
-	cfg, err := config.New(pathConfig)
+	cfg, err := config.New("config/local.yaml")
 	if err != nil {
 		log.Fatalf("Config error: %v", err)
 	}
