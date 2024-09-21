@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/magmaheat/social-network/sn-auth/pkg/postgres"
-	"github.com/magmaheat/social-network/sn-post/config"
+	"github.com/magmaheat/social-network/tree/main/sn-post/config"
 	log "github.com/sirupsen/logrus"
 )
 

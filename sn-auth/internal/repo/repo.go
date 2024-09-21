@@ -2,9 +2,9 @@ package repo
 
 import (
 	"context"
-	"github.com/magmaheat/social-network/sn-auth/internal/entity"
-	"github.com/magmaheat/social-network/sn-auth/internal/repo/pgdb"
-	"github.com/magmaheat/social-network/sn-auth/pkg/postgres"
+	"github.com/magmaheat/social-network/tree/main/sn-auth/internal/entity"
+	"github.com/magmaheat/social-network/tree/main/sn-auth/internal/repo/pgdb"
+	"github.com/magmaheat/social-network/tree/main/sn-auth/pkg/postgres"
 )
 
 type User interface {
