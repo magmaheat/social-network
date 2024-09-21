@@ -5,11 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/golang-jwt/jwt"
+	"github.com/magmaheat/social-network/sn-auth/internal/entity"
+	"github.com/magmaheat/social-network/sn-auth/internal/repo"
+	"github.com/magmaheat/social-network/sn-auth/internal/repo/repoerrs"
+	"github.com/magmaheat/social-network/sn-auth/pkg/hasher"
 	log "github.com/sirupsen/logrus"
-	"sn-auth/internal/entity"
-	"sn-auth/internal/repo"
-	"sn-auth/internal/repo/repoerrs"
-	"sn-auth/pkg/hasher"
 	"time"
 )
 

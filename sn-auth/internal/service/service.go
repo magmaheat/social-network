@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"sn-auth/internal/repo"
-	"sn-auth/pkg/hasher"
+	"github.com/magmaheat/social-network/sn-auth/internal/repo"
+	"github.com/magmaheat/social-network/sn-auth/pkg/hasher"
 	"time"
 )
 

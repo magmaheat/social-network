@@ -1,17 +1,17 @@
 services:
-  sn-postgres:
-    container_name: sn-postgres
+  auth-pg:
+    container_name: auth-pg
     image: postgres
     volumes:
-      - pg-data:/var/lib/postgresql/data
+      - pg-data-auth:/var/lib/postgresql/data
     env_file:
       - ./sn-auth/.env
     ports:
       - "5432:5432"
     restart: unless-stopped
 
-  sn-auth:
-    container_name: sn-auth
+  auth-app:
+    container_name: auth-app
     build:
       context: ./sn-auth
       dockerfile: Dockerfile
@@ -22,8 +22,53 @@ services:
     ports:
       - "8089:8089"
     depends_on:
-      - sn-postgres
+      - auth-pg
+    restart: unless-stopped
+
+  post-minio:
+    container_name: post-minio
+    image: 'bitnami/minio:latest'
+    volumes:
+      - 'minio_data:/data'
+    env_file:
+      - ./sn-post/.env
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost: 9000/minio/health/live" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  post-pg:
+    container_name: post-pg
+    image: postgres
+    volumes:
+      - pg-data-post:/var/lib/postgresql/data
+    env_file:
+      - ./sn-post/.env
+    ports:
+      - "5532:5532"
+    restart: unless-stopped
+
+  post-app:
+    container_name: post-app
+    build:
+      context: ./sn-post
+      dockerfile: Dockerfile
+    volumes:
+      - ./sn-auth/logs:/logs
+    env_file:
+      - ./sn-auth/.env
+    ports:
+      - "8189:8189"
+    depends_on:
+      - post-pg
+      - post-minio
     restart: unless-stopped
 
 volumes:
-  pg-data:
+  pg-data-auth:
+  pg-data-post:
+  minio_data:

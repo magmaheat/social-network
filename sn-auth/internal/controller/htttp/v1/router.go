@@ -3,10 +3,10 @@ package v1
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/magmaheat/social-network/sn-auth/internal/service"
 	log "github.com/sirupsen/logrus"
 	echoSwagger "github.com/swaggo/echo-swagger"
 	"os"
-	"sn-auth/internal/service"
 )
 
 func NewRouter(handler *echo.Echo, services *service.Services) {

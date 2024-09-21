@@ -1,6 +1,6 @@
 package main
 
-import "sn-post/internal/app"
+import "github.com/magmaheat/social-network/sn-post/internal/app"
 
 const pathConfig = "config/local.yaml"
 

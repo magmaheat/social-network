@@ -2,8 +2,8 @@ package v1
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/magmaheat/social-network/sn-auth/internal/service"
 	"net/http"
-	"sn-auth/internal/service"
 )
 
 type authRouter struct {

@@ -3,16 +3,16 @@ package app
 import (
 	"fmt"
 	"github.com/labstack/echo/v4"
+	"github.com/magmaheat/social-network/sn-auth/config"
+	v1 "github.com/magmaheat/social-network/sn-auth/internal/controller/htttp/v1"
+	"github.com/magmaheat/social-network/sn-auth/internal/repo"
+	"github.com/magmaheat/social-network/sn-auth/internal/service"
+	"github.com/magmaheat/social-network/sn-auth/pkg/hasher"
+	"github.com/magmaheat/social-network/sn-auth/pkg/httpserver"
+	"github.com/magmaheat/social-network/sn-auth/pkg/postgres"
+	"github.com/magmaheat/social-network/sn-auth/pkg/validator"
 	log "github.com/sirupsen/logrus"
 	"os"
-	"sn-auth/config"
-	v1 "sn-auth/internal/controller/htttp/v1"
-	"sn-auth/internal/repo"
-	"sn-auth/internal/service"
-	"sn-auth/pkg/hasher"
-	"sn-auth/pkg/httpserver"
-	"sn-auth/pkg/postgres"
-	"sn-auth/pkg/validator"
 )
 
 func Run(configPath string) {

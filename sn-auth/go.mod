@@ -1,4 +1,4 @@
-module sn-auth
+module github.com/magmaheat/social-network/sn-auth
 
 go 1.22.3
 
