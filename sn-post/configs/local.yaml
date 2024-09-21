@@ -3,7 +3,7 @@ app:
   version: "1.0.0"
 
 http:
-  host: 8099
+  host: 8189
 
 log:
   level: "debug"

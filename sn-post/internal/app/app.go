@@ -3,12 +3,12 @@ package app
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/magmaheat/social-network/sn-auth/pkg/postgres"
-	"github.com/magmaheat/social-network/tree/main/sn-post/config"
+	"github.com/magmaheat/social-network/sn-post/configs"
 	log "github.com/sirupsen/logrus"
 )
 
 func Run(pathConfig string) {
-	cfg, err := config.New("config/local.yaml")
+	cfg, err := configs.New("configs/local.yaml")
 	if err != nil {
 		log.Fatalf("Config error: %v", err)
 	}
@@ -24,5 +24,8 @@ func Run(pathConfig string) {
 	_ = pg
 
 	handler := echo.New()
-	_ = handler.Start(cfg.HTTP.Port)
+
+	if err := handler.Start(":" + cfg.HTTP.Port); err != nil {
+		log.Fatalf("Server error: %v", err)
+	}
 }

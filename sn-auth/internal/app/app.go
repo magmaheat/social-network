@@ -3,7 +3,7 @@ package app
 import (
 	"fmt"
 	"github.com/labstack/echo/v4"
-	"github.com/magmaheat/social-network/tree/main/sn-auth/config"
+	"github.com/magmaheat/social-network/tree/main/sn-auth/configs"
 	v1 "github.com/magmaheat/social-network/tree/main/sn-auth/internal/controller/htttp/v1"
 	"github.com/magmaheat/social-network/tree/main/sn-auth/internal/repo"
 	"github.com/magmaheat/social-network/tree/main/sn-auth/internal/service"
@@ -16,7 +16,7 @@ import (
 )
 
 func Run(configPath string) {
-	cfg, err := config.NewConfig(configPath)
+	cfg, err := configs.NewConfig(configPath)
 	if err != nil {
 		log.Fatalf("Config error: %v", err)
 	}

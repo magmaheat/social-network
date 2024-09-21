@@ -1,4 +1,4 @@
-package config
+package configs
 
 import (
 	"fmt"
@@ -43,7 +43,7 @@ func New(pathConfig string) (*Config, error) {
 
 	err := cleanenv.ReadConfig(path.Join("./", pathConfig), cfg)
 	if err != nil {
-		return nil, fmt.Errorf("error read config: %v", err)
+		return nil, fmt.Errorf("error read configs: %v", err)
 	}
 
 	err = cleanenv.UpdateEnv(cfg)

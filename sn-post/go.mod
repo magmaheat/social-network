@@ -1,4 +1,4 @@
-module github.com/magmaheat/social-network/tree/main/sn-post
+module github.com/magmaheat/social-network/sn-post
 
 go 1.22.3
 

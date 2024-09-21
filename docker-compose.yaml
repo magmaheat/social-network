@@ -58,9 +58,9 @@ services:
       context: ./sn-post
       dockerfile: Dockerfile
     volumes:
-      - ./sn-auth/logs:/logs
+      - ./sn-post/logs:/logs
     env_file:
-      - ./sn-auth/.env
+      - ./sn-post/.env
     ports:
       - "8189:8189"
     depends_on:
