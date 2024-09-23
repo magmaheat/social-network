@@ -38,6 +38,11 @@ type JWT struct {
 	TokenTTL string `env-required:"true" yaml:"token_ttl" env:"JWT_TOKEN_TTL"`
 }
 
+type Minio struct {
+	Endpoint   string `env-required:"true" yaml:"endpoint" env:"MINIO_ENDPOINT"`
+	BucketName string `env-required:"true" yaml:"bucket_name" env:""`
+}
+
 func New(pathConfig string) (*Config, error) {
 	cfg := &Config{}
 

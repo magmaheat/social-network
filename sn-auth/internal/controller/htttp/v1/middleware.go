@@ -2,7 +2,7 @@ package v1
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/magmaheat/social-network/tree/main/sn-auth/internal/service"
+	"github.com/magmaheat/social-network/sn-auth/internal/service"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 

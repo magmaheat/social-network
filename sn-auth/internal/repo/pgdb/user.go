@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
-	"github.com/magmaheat/social-network/tree/main/sn-auth/internal/entity"
-	"github.com/magmaheat/social-network/tree/main/sn-auth/internal/repo/repoerrs"
-	"github.com/magmaheat/social-network/tree/main/sn-auth/pkg/postgres"
+	"github.com/magmaheat/social-network/sn-auth/internal/entity"
+	"github.com/magmaheat/social-network/sn-auth/internal/repo/repoerrs"
+	"github.com/magmaheat/social-network/sn-auth/pkg/postgres"
 )
 
 type UserRepo struct {

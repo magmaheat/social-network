@@ -1,6 +1,6 @@
 package main
 
-import "github.com/magmaheat/social-network/tree/main/sn-auth/internal/app"
+import "github.com/magmaheat/social-network/sn-auth/internal/app"
 
 const configPath = "configs/local.yaml"
 
